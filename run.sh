@@ -26,7 +26,7 @@ wait_for() {
 
 run_web_goat() {
   print "INFO" "WebGoat: Starting application"
-  docker-compose up -d datadog-agent webgoat
+  docker compose up -d datadog-agent webgoat
   wait_for "WebGoat" "http://localhost:8080/WebGoat"
   print "INFO" "WebGoat: Logs are available at http://localhost:8181/webgoat/"
   print "INFO" "WebGoat: Start navigating the application and watch for vulnerabilities at Datadog"
@@ -34,7 +34,7 @@ run_web_goat() {
 
 run_benchmark() {
   print "INFO" "Benchmark: Starting application"
-  docker-compose up -d datadog-agent benchmark
+  docker compose up -d datadog-agent benchmark
   wait_for "Benchmark" "http://localhost:8181/scorecard/"
   print "INFO" "Benchmark: Logs are available at http://localhost:8181/benchmark/"
   print "INFO" "Benchmark: Scorecards are available at http://localhost:8181/scorecard/"
@@ -43,7 +43,7 @@ run_benchmark() {
 
 run_insecure_bank() {
   print "INFO" "Insecure Bank: Starting application"
-  docker-compose up -d datadog-agent insecure-bank
+  docker compose up -d datadog-agent insecure-bank
   wait_for "Insecure Bank" "http://localhost:8080"
   print "INFO" "Insecure Bank: Logs are available at http://localhost:8181/insecure-bank/"
   print "INFO" "Insecure Bank: Start navigating the application and watch for vulnerabilities at Datadog"
@@ -68,15 +68,15 @@ start() {
 }
 
 stop() {
-  docker-compose down
+  docker compose down
 }
 
 logs() {
-  docker-compose logs -f
+  docker compose logs -f
 }
 
-command -v docker-compose >/dev/null 2>&1 || {
-  print "ERROR" "Please install docker-compose before running the samples.";
+command -v docker >/dev/null 2>&1 || {
+  print "ERROR" "Please install 'docker' before running the samples.";
   exit 1
 }
 
