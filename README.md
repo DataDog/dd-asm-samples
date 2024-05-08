@@ -72,6 +72,8 @@ For example, you can try to log-in using:
 
 And you will have SQLi and LDAPi vulnerabilities available at Datadog (application `dd-asm-samples-insecure-bank`)
 
+![Insecure Bank vulnerabilities](https://github.com/DataDog/dd-asm-samples/blob/main/images/insecure-bank-vulnerabilities-1.png?raw=true)
+
 You can stop the application by running:
 
 ```shell
@@ -89,6 +91,8 @@ After a few minutes the benchmark will have finished and the scorecards will be 
 http://localhost:8181/scorecard/. 
 
 You will have all the vulnerabilities at Datadog (application `dd-asm-samples-benchmark`)
+
+![Benchmark vulnerabilities](https://github.com/DataDog/dd-asm-samples/blob/main/images/benchmark-vulenrabilities-1.png?raw=true)
 
 You can stop the application by running:
 
@@ -108,8 +112,11 @@ http://localhost:8181/webgoat/, follow the different lessons in order to trigger
 
 For example, you can use lesson 5 of SQLi to trigger the vulnerability:
 
+![WebGoat lesson 5](https://github.com/DataDog/dd-asm-samples/blob/main/images/webgoat-vulnerabilities-1.png?raw=true)
 
 You will have SQLi vulnerability available at Datadog (application `dd-asm-samples-webgoat`)
+
+![WebGoat vulnerability](https://github.com/DataDog/dd-asm-samples/blob/main/images/webgoat-vulnerabilities-2.png?raw=true)
 
 You can stop the application by running:
 
