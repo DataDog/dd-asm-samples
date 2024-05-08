@@ -1,0 +1,62 @@
+name: "Build"
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build_push_and_check:
+    name: Build docker image, publish it and run vuln scanner against it
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      packages: write # for image publication to GitHub Packages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # 4.1.1
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@f03ac48505955848960e80bbb68046aa35c7b9e7 # 2.4.1
+      - name: Login to ghcr.io
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a # 2.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build images
+        id: build
+        run: ./build
+      - name: Push images
+        run: ./build --push
+      - name: Free Disk Space (Ubuntu) # Required by trivy to have enough space to scan full image
+        uses: jlumbroso/free-disk-space@76866dbe54312617f00798d1762df7f43def6e5c # v1.2.0
+        with:
+          large-packages: false # Temporary fix for https://github.com/jlumbroso/free-disk-space/issues/4
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@41f05d9ecffa2ed3f1580af306000f734b733e54 # v0.11.2
+        with:
+          image-ref: '${{ steps.build.outputs.LATEST_IMAGE_TAG }}'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+          limit-severities-for-sarif: true
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
+  keepalive-job:
+    name: Keep repository alive to prevent workflows to be disabled
+    if: ${{ always() }}
+    needs: build_push_and_check
+    permissions:
+      actions: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # 4.1.1
+      - name: Keep workflow alive
+        uses: gautamkrishnar/keepalive-workflow@306efe4fc63923e36571682b4f4b3e3eee8b6625 # v1.2.6
+        with:
+          use_api: true

@@ -1,6 +1,5 @@
 x-dd-asm-samples: &x-dd-asm-samples
-  image: dd-asm-samples:latest
-  build: ./docker
+  image: ghcr.io/datadog/dd-asm-samples:latest
   # volumes:
     # - path to your agent here:/agent/dd-java-agent.jar
   environment: &x-dd-asm-samples-env
