@@ -12,8 +12,8 @@ BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 GIT_HEAD_REF="$(git show-ref --head --hash ^HEAD)"
 
 function do_build() {
-  docker build \
-    --platform linux/amd64 \
+  docker buildx build \
+    --platform linux/amd64,linux/arm64 \
     --label org.opencontainers.image.created="$BUILD_DATE" \
     --label org.opencontainers.image.source=https://github.com/DataDog/dd-asm-samples \
     --label org.opencontainers.image.revision="$GIT_HEAD_REF" \
