@@ -5,6 +5,12 @@ set -eu
 tests=(webgoat benchmark insecure-bank)
 basedir=$(dirname "$0")
 
+print_help() {
+  echo "Usage: $0 start [webgoat|benchmark|insecure-bank]"
+  echo "       $0 stop"
+  echo "       $0 logs"
+}
+
 print() {
   level=$1
   message=$2
@@ -88,11 +94,19 @@ fi
 
 if [ $# -lt 1 ]; then
   print "ERROR" "Choose one of the available commands: start, stop, logs"
+  echo
+  print_help
   exit 1
 fi
 
 case $1 in
   "start")
+    if [ $# -lt 2 ]; then
+      print "ERROR" "Missing sample name, chose one of: ${tests[*]}"
+      echo
+      print_help
+      exit 1
+    fi
     start "$2"
     ;;
   "stop")
@@ -101,8 +115,14 @@ case $1 in
   "logs")
     logs
     ;;
+  -h|--help)
+    print_help
+    exit 0
+    ;;
   *)
     print "ERROR" "Invalid command '$1' chose one of: start, stop, logs"
+    echo
+    print_help
     exit 1
     ;;
 esac
