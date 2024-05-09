@@ -15,22 +15,36 @@ open source components.
 
 ## Prerequisites
 
-The only requirements for the samples are [docker](https://www.docker.com/) and 
-[docker-compose](https://docs.docker.com/compose/).
+The only requirements for the samples are [docker](https://www.docker.com/) and [docker-compose](https://docs.docker.com/compose/).
 
 You will also need a valid [Datadog API key](https://docs.datadoghq.com/account_management/api-app-keys/) in order to 
-submit the discovered vulnerabilities (rename the provided `.env.sample` file as `.env` and copy your API key).
+submit the discovered vulnerabilities.
 
-By default, the samples will download the latest release of the java tracer from this
-[link](https://github.com/DataDog/dd-trace-java/releases/download/download-latest/dd-java-agent.jar), you can override 
-this behaviour by mounting your own jar inside the `docker-compose.yml` file:
+## Instructions
+
+1. Clone the repository
+
+```shell
+git clone git@github.com:DataDog/dd-asm-samples.git
+```
+
+2. Rename the provided `.env.sample` file as `.env` and copy your API key, preferred environment, version and services 
+name prefix
+
+```shell
+cp .env.sample .env
+```
+
+3. [_Optional_] All samples will download the latest release of the java tracer by default, you can override this 
+behaviour by mounting your own jar inside the `docker-compose.yml` file:
 
 ```yaml
 volumes:
   - path to your agent here:/agent/dd-java-agent.jar
 ```
 
-## Instructions
+## Running the samples
+
 This repository provides a shell script `run.sh` that can be used to start, stop and inspect the logs from the different
 containers:
 
@@ -52,9 +66,6 @@ containers:
 ./run.sh stop
 ```
 
-
-## Running the samples
-
 ### Insecure Bank
 Insecure bank can be started with the following shell command:
 
@@ -70,7 +81,7 @@ For example, you can try to log-in using:
 * username: **john**
 * password: **test**
 
-And you will have SQLi and LDAPi vulnerabilities available at Datadog (application `dd-asm-samples-insecure-bank`)
+And you will have SQLi and LDAPi vulnerabilities available at Datadog (by default application `dd-asm-samples-insecure-bank`)
 
 ![Insecure Bank vulnerabilities](https://github.com/DataDog/dd-asm-samples/blob/main/images/insecure-bank-vulnerabilities-1.png?raw=true)
 
@@ -90,7 +101,7 @@ The OWASP benchmark can be executed with the following command:
 After a few minutes the benchmark will have finished and the scorecards will be available at 
 http://localhost:8181/scorecard/. 
 
-You will have all the vulnerabilities at Datadog (application `dd-asm-samples-benchmark`)
+You will have all the vulnerabilities at Datadog (by default application `dd-asm-samples-benchmark`)
 
 ![Benchmark vulnerabilities](https://github.com/DataDog/dd-asm-samples/blob/main/images/benchmark-vulenrabilities-1.png?raw=true)
 
@@ -114,7 +125,7 @@ For example, you can use lesson 5 of SQLi to trigger the vulnerability:
 
 ![WebGoat lesson 5](https://github.com/DataDog/dd-asm-samples/blob/main/images/webgoat-vulnerabilities-1.png?raw=true)
 
-You will have SQLi vulnerability available at Datadog (application `dd-asm-samples-webgoat`)
+You will have SQLi vulnerability available at Datadog (by default application `dd-asm-samples-webgoat`)
 
 ![WebGoat vulnerability](https://github.com/DataDog/dd-asm-samples/blob/main/images/webgoat-vulnerabilities-2.png?raw=true)
 
