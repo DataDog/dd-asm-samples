@@ -23,8 +23,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build images
+      - name: Build and publish images
         id: build
         run: ./build.sh
-      - name: Push images
-        run: ./build.sh --push
