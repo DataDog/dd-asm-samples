@@ -1,12 +1,10 @@
 name: "Build"
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   build_push_and_check:
-    name: Build docker image, publish it and run vuln scanner against it
+    name: Build and publish docker images
     permissions:
       contents: read # for actions/checkout to fetch code
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
