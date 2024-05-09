@@ -17,16 +17,9 @@ function do_build() {
     --label org.opencontainers.image.created="$BUILD_DATE" \
     --label org.opencontainers.image.source=https://github.com/DataDog/dd-asm-samples \
     --label org.opencontainers.image.revision="$GIT_HEAD_REF" \
+    --push \
     --tag "$IMAGE_NAME:latest" \
     ./docker
 }
 
-function do_push() {
-  docker push "$IMAGE_NAME:latest"
-}
-
-if [[ -z ${1:-} ]]; then
-    do_build
-elif [[ ${1} = "--push" ]]; then
-    do_push
-fi
+do_build
